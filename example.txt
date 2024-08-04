@@ -1,0 +1,8 @@
+song Example
+by PaiShoFish49
+output example.wav wav
+
+tempo 120
+duration 8me
+
+sound a1 pure sine
