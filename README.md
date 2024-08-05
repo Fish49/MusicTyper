@@ -1,35 +1,126 @@
 # MusicTyper
- be able to make music more algoritmically
+an attempt to make sound design more low - level, programatic, and educational.
 
+# Syntax:
 ## Keywords:
-- song < title >
-- by < author >
-- output < path > ( wav | mp3 | midi )
-- tempo < bpm >
-- duration < time >
-- time < top > < bottom >
-- open < path >
-- sound < variable > < sound >
-- effect < variable > < operation >
-- alter < variable > < effect >
-- pure ( sine | square | saw | triangle ) [ amplitude ] [ frequency ] [ phase ]
-- number < variable > < number >
-- sample < samplerate >
-- pitch < sound > < to > [ from ]
-- pitchrelative ( half | whole ) < sound > < amount >
+these are reserved keywords that the program uses to interpret your script
+- ### Settings:
+    - #### song < title >
+        - sets the title of the song
+        - default is untitled
+    - #### by < author >
+        - sets the auther of the song
+        - default is John Doe
+    - #### output < path > ( wav | mp3 | midi )
+        - sets the path for the song to be output
+        - by default, the song wont output at all
+    - #### tempo < number >
+        - sets  the tempo for the song in beats per minute, or if a unit of time is specified, 1 beat per that unit of time
+        - default is 120 bpm
+    - #### duration < time >
+        - sets the total length of the song. this can be set in any unit of time other than song fractions
+        - default is 3 minutes
+    - #### time < top > < bottom >
+        - sets the time signature for the song
+        - default is 4 4 time, or common time
+    - #### key < note > ( major | minor )
+        - sets the key signature for the song
+        - defaul is C major
+    - #### tune < frequency >
+        - sets tuning of A above middle C, in hertz
+        - default is 440hz
+    - #### sample < samplerate >
+        - sets the sample rate of the song
+        - default is 44.1K or 44100 samples per second
+    - #### channel ( mono | stereo )
+        - determines whether the song has one or two channels
+        - default is stereo
+- ### Variables:
+    - #### open ( path | wav | mp3 | ogg )
+        - returns the sound wave of the file at the specific path
+    - #### def < function >
+        - defines a function, at indents below
+    - #### return < variable >
+        - returns a variable from a function
+    - #### div < name >
+        - creates a divider with specified name. all indented code under it is in its domain.
+    - #### pure ( sine | square | sawup | sawdown | triangle ) < duration > [ frequency ] [ amplitude ] [ phase ]
+        - returns a pure wave of specified type for specified duration
+        - default frequency is middle C, amplitude is -5db, phase is 0sm
+    - #### white < seed >
+        - generates white noise with specified seed
+    - #### pitch < sound > < to > [ from ]
+        - returns the input sound at the new pitch
+        - default from value is middle C
+    - #### pitchrelative < sound > < amount >
+        - returns the input sound, pitched by the desired amount of half - steps
+    - #### add < sound > < position > [ onto ] [ start | end | middle ] [ L | R | both ]
+        - adds the sound onto specified other sound at the specified channel
+        - specified channel is irrelevant for mono tracks
+        - start, end, and middle mean it will start, end, or be in the middle of the specified position
+        - default onto is the main song file. default edge is start. default channel is both
+    - #### reshape < sound > ( split | merge | L | R )
+        - changes stereo to mono or vice versa
+        - L discards right channel, R discards right channel, merge combines the two channels, and split copies the mono channel to a new right and left for stereo
+        - stereo tracks are unaffected by split, and mono tracks are unaffected by merge, L, and R
+        - by default it will split mono tracks and merge stero tracks
 
-## Units
-#, $, and % represent sharp, flat, and natural respectively.
+## Units:
+#, $, and % represent sharp, flat, and natural respectively
+each unit is a suffix for its value ( ex. 440hz )
 - ### Units of time:
- - samples: number of sound wave samples, usually 44100 per second ( 250sm )
- - seconds ( 3s )
- - minutes ( 3m )
- - measures: some multiple of beats, depending on time signature ( 20me )
- - song fractions: fractions of the total length of the song ( 1/2fr or 0.5fr is half of the song )
- - beats ( 3b )
+    - #### samples
+        - number of sound wave samples, usually 44100 per second ( 44100sm )
+        - ex. 500sm
+    - #### seconds
+        - ex. 3s
+    - #### minutes
+        - ex. 3m
+    - #### beats
+        - ex. 3b
+    - #### measures
+        - some multiple of beats, depending on time signature
+        - ex. 20me
+    - #### song fractions
+        - fractions of the total length of the song
+        - ex. 1/2fr, 2/7fr, 0.2fr
 - ### Units of frequency:
- - hertz ( 256hz )
- - scale degree: from the base of whatever key signature the song is in ( in C major, 0sd is middle C, 1sd is D, and -1sd is B )
- - note name: simple note name ( C4n, C4#n, D2#n, A5$n, etc. )
- - absolute degree: from middle C ( 0ad is middle C, 0.5ad is C#, -1ad is B, etc. )
- - half steps: from middle C, but the number represents the number of half-steps ( 0hs is middle C, 1hs is C#, -1ad is B, etc. )
+    - #### hertz
+        - ex. 440hz
+    - #### scale degree
+        - from the base of whatever key signature the song is in
+        - ex. in C major, 0sd is middle C, 1sd is D, and -1sd is B
+    - #### note name
+        - simple note name
+        - ex. C4n, C4#n, D2#n, A5$n,
+    - #### whole steps
+        - from middle C
+        - ex. 0ws is middle C, 0.5ws is C#, -1ws is B
+    - #### half steps:
+        - like absolute degrees, but the number represents the number of half-steps
+        - ex. 0hs is middle C, 1hs is C#, -1hs is B
+    - #### bpm:
+        - beats per minute
+        - ex. 120bpm
+- ### Units of amplitude:
+    - #### decibels (full scale)
+        - decibels from 8-bit clip distance
+        - ex. -3db
+    - #### amplitude degree
+        - fraction of the clip distance. this is not linear.
+        - ex. 1.0 is clip volume, 0.1 is kinda quiet, 0.3 is full - bodied
+
+## Operations
+- ### Casting:
+    - casting from a number to any kind of unit is self explanitory
+    - casting from frequency to time does the reciprical of the frequency ( duration(2hz) would be 0.5 )
+    - casting from time to frequency does the reciprical of the time ( frequency(5s) would be 0.2hz )
+    - frequency and time cant be casted to or from amplitude.
+- ### Addition:
+    - adding two sound waves is the same as playing them at the same time, it simply overlays them together
+    - adding two frequencies, time scales, or amplitude units will give the numerical sum of their values
+    - adding two numbers gives their sum
+- ### Multiplication:
+    - multiplying two sound waves will give their product at each index. if the waves arent the same length, any overhang will be set to zero
+    - multiplying a sound wave with a number will multiply it by that number at every index ( scaler multiplication )
+    - multiplying a sound wave with an amplitude will scale it down by that amplitude

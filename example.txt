@@ -3,6 +3,12 @@ by PaiShoFish49
 output example.wav wav
 
 tempo 120
-duration 8me
+duration 1me
 
-sound a1 pure sine
+div melody
+    notes = [C4n, E4n, G4n, C5n]
+    for i notes.len
+        add (pure sine 1b notes[i]) beats(i + 1)
+
+div beats
+    add (pure sawup 1b hertz(1b))
