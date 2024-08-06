@@ -7,14 +7,23 @@ import soundfile
 import numpy as np
 import math
 import playsound
+import re
+
+patterns = {
+    'time': r'([/0-9\. ]+(sm|s|m|b|fr))',
+    'frequency': r'(\d+(hz|sd|hs|bpm)|[ABCDEFG]\d[#\$%]?n)',
+    'amplitude': r'([/0-9\. ]+ad|)',
+    'pure': r'pure (sine|square|sawup|sawdown|triangle) ',
+    'assignment': r'.+='
+}
 
 class Song():
     def __init__(self) -> None:
         self.title = 'untitled'
         self.auther = 'John Doe'
         self.output = None
-        self.tempoBPM = 120
-        self.durationSeconds = 180
+        self.tempoHertz = 2
+        self.durationSamples = 7938000
         self.timeSignature = (4, 4)
         self.baseKey = 'C4'
         self.scaleHalfsteps = [0, 2, 4, 5, 7, 9, 11]
@@ -37,22 +46,27 @@ class Song():
 
         return (2**(fromA4 / 12)) * self.tuneHertz
 
-x = np.zeros(44100 * 2)
+    def decibelsToDegs(self, db):
+        return 10 ** (db / 10)
 
-allo = [
-    [1.0, 0.8, 0.8, 0.8, 0.7, 0.6, 0.5, 0.5],
-    [1.0, 0.6, 0.3, 0.2, 0.1, 0.0, 0.0, 0.0],
-    [1.0, 0.5, 0.2, 0.1, 0.0, 0.0, 0.0, 0.0],
-    [1.0, 0.2, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0],
-    [1.0, 0.5, 0.5, 0.5, 0.2, 0.2, 0.1, 0.0],
-    [1.0, 0.5, 0.5, 0.5, 0.2, 0.2, 0.1, 0.0],
-]
+    def degsToDecibels(self, degs):
+        return 10 * math.log(degs, 10)
 
-overtones = allo[0]
-for i in range(len(overtones)):
-    a = np.linspace(0, 2, 44100 * 2)
-    b = np.sin(np.radians(a * ((440 * (i + 1)) * 180)))
-    x += b * (overtones[i] / 8)
+    def generateWave(self, shape, duration, frequency = 'Cn', amplitude = 1):
+        if shape == 'sine':
+            pass
 
-soundfile.write('test1.wav', x, 44100)
-playsound.playsound('test1.wav')
+    def readLine(self, line):
+        pass
+
+    def readFile(self, text: str):
+        for i in text.splitlines():
+            self.readLine(i)
+
+def start():
+    with open('renderList.txt', 'r') as renderList:
+        for i in renderList.readlines():
+            x = Song()
+
+a = Song()
+print(a.keyToHertz('C4'))

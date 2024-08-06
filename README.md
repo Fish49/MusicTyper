@@ -93,9 +93,6 @@ each unit is a suffix for its value ( ex. 440hz )
     - #### note name
         - simple note name
         - ex. C4n, C4#n, D2#n, A5$n,
-    - #### whole steps
-        - from middle C
-        - ex. 0ws is middle C, 0.5ws is C#, -1ws is B
     - #### half steps:
         - like absolute degrees, but the number represents the number of half-steps
         - ex. 0hs is middle C, 1hs is C#, -1hs is B
@@ -103,12 +100,12 @@ each unit is a suffix for its value ( ex. 440hz )
         - beats per minute
         - ex. 120bpm
 - ### Units of amplitude:
-    - #### decibels (full scale)
-        - decibels from 8-bit clip distance
-        - ex. -3db
     - #### amplitude degree
         - fraction of the clip distance. this is not linear.
-        - ex. 1.0 is clip volume, 0.1 is kinda quiet, 0.3 is full - bodied
+        - ex. 1.0ad is clip volume, 0.1ad is kinda quiet, 0.3ad is full - bodied
+    - #### decibels (full scale)
+        - decibels from 8-bit clip distance
+        - ex. 0db is the loudest possible, -3db is normal
 
 ## Operations
 - ### Casting:
@@ -117,10 +114,11 @@ each unit is a suffix for its value ( ex. 440hz )
     - casting from time to frequency does the reciprical of the time ( frequency(5s) would be 0.2hz )
     - frequency and time cant be casted to or from amplitude.
 - ### Addition:
-    - adding two sound waves is the same as playing them at the same time, it simply overlays them together
+    - adding two signals is the same as playing them at the same time, it simply overlays them together
     - adding two frequencies, time scales, or amplitude units will give the numerical sum of their values
     - adding two numbers gives their sum
+    - adding a signal with an amplitude offsets the whole signal by that amplitude ( mostly for masking )
 - ### Multiplication:
-    - multiplying two sound waves will give their product at each index. if the waves arent the same length, any overhang will be set to zero
+    - multiplying two signals will give their product at each index. if the signals arent the same length, any overhang will be set to zero
     - multiplying a sound wave with a number will multiply it by that number at every index ( scaler multiplication )
     - multiplying a sound wave with an amplitude will scale it down by that amplitude

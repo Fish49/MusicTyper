@@ -1,0 +1,8 @@
+song test
+by PaiShoFish49
+
+output test.wav wav
+
+a = pure sine 1s
+
+add a 0sm
