@@ -56,9 +56,11 @@ these are reserved keywords that the program uses to interpret your script
         - returns the input sound, pitched by the desired amount of half - steps
     - #### add < sound > < position > [ onto ] [ start | end | middle ] [ L | R | both ]
         - adds the sound onto specified other sound at the specified channel
-        - specified channel is irrelevant for mono tracks
+        - specified channel is irrelevant if both tracks are mono or both are stereo
         - start, end, and middle mean it will start, end, or be in the middle of the specified position
         - default onto is the main song file. default edge is start. default channel is both
+    - #### join < sound1 > < sound2 >
+        - appends sound2 to the end of sound1
     - #### reshape < sound > ( split | merge | L | R )
         - changes stereo to mono or vice versa
         - L discards right channel, R discards right channel, merge combines the two channels, and split copies the mono channel to a new right and left for stereo

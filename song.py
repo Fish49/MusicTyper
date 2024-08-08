@@ -8,14 +8,7 @@ import numpy as np
 import math
 import playsound
 import re
-
-patterns = {
-    'time': r'([/0-9\. ]+(sm|s|m|b|fr))',
-    'frequency': r'(\d+(hz|sd|hs|bpm)|[ABCDEFG]\d[#\$%]?n)',
-    'amplitude': r'([/0-9\. ]+ad|)',
-    'pure': r'pure (sine|square|sawup|sawdown|triangle) ',
-    'assignment': r'.+='
-}
+import time
 
 class Song():
     def __init__(self) -> None:
@@ -32,7 +25,7 @@ class Song():
         self.stereo = True
 
         self.vars = {
-            'song': np.zeros(self.durationSeconds * self.sampleRate)
+            'song': np.zeros(self.durationSamples)
         }
 
     def keyToHertz(self, key):
@@ -52,9 +45,21 @@ class Song():
     def degsToDecibels(self, degs):
         return 10 * math.log(degs, 10)
 
-    def generateWave(self, shape, duration, frequency = 'Cn', amplitude = 1):
+    def stringToHertz(self, string: str):
+        if string.endswith('n'):
+            return self.keyToHertz(string[:-1])
+
+    def generateWave(self, shape, duration, frequency = 'Cn', amplitude = 1, phase = 0):
+        frequency = self.stringToHertz(frequency)
+        line = np.linspace(0 - phase, (duration * frequency / self.sampleRate) - phase, duration)
         if shape == 'sine':
-            pass
+            return np.sin(line * 2 * np.pi) * amplitude
+        elif shape == 'square':
+            return -np.sign(np.mod(line, 1) - 0.5) * amplitude
+        elif shape == 'sawup':
+            return (np.mod(line, 1) - 0.5) * amplitude
+        elif shape == 'sawdown':
+            return (-np.mod(line, 1) + 0.5) * amplitude
 
     def readLine(self, line):
         pass
@@ -69,4 +74,8 @@ def start():
             x = Song()
 
 a = Song()
-print(a.keyToHertz('C4'))
+b = a.generateWave('sine', 44100, 'C0n', 0.5, 0)
+c = a.generateWave('sine', 44100, 'C1n', 0.5, 0)
+soundfile.write('test.wav', b + c, 44100)
+time.sleep(1)
+playsound.playsound('test.wav')
