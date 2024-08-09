@@ -54,12 +54,18 @@ class Song():
         line = np.linspace(0 - phase, (duration * frequency / self.sampleRate) - phase, duration)
         if shape == 'sine':
             return np.sin(line * 2 * np.pi) * amplitude
+
         elif shape == 'square':
             return -np.sign(np.mod(line, 1) - 0.5) * amplitude
+
         elif shape == 'sawup':
-            return (np.mod(line, 1) - 0.5) * amplitude
+            return (np.mod(line, 1) - 0.5) * amplitude * 2
+
         elif shape == 'sawdown':
-            return (-np.mod(line, 1) + 0.5) * amplitude
+            return (-np.mod(line, 1) + 0.5) * amplitude * 2
+
+        elif shape == 'triangle':
+            return (4 * np.abs(np.mod(line - 0.25, 1) - 0.5) - 1) * amplitude
 
     def readLine(self, line):
         pass
@@ -74,8 +80,7 @@ def start():
             x = Song()
 
 a = Song()
-b = a.generateWave('sine', 44100, 'C0n', 0.5, 0)
-c = a.generateWave('sine', 44100, 'C1n', 0.5, 0)
-soundfile.write('test.wav', b + c, 44100)
+b = a.generateWave('triangle', 44100, 'C0n', 1, 0)
+soundfile.write('test.wav', b, 44100)
 time.sleep(1)
 playsound.playsound('test.wav')
