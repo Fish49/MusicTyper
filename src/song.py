@@ -80,7 +80,9 @@ def start():
             x = Song()
 
 a = Song()
-b = a.generateWave('triangle', 44100, 'C0n', 1, 0)
-soundfile.write('test.wav', b, 44100)
+b = a.generateWave('triangle', 44100, 'C0n', 0.5, 0)
+c = a.generateWave('triangle', 44100, 'C1n', 0.5, 0)
+d = a.generateWave('triangle', 44100, 'C2n', 0.5, 0)
+soundfile.write('test.wav', b + c + d, 44100)
 time.sleep(1)
 playsound.playsound('test.wav')
