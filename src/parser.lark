@@ -1,0 +1,24 @@
+start: command
+
+command: assignment | inplace
+
+assignment: variable "=" time | frequency | amplitude | variable | operation
+inplace: song | by | output | tempo | duration | timesig | keysig | tune | sample | channel
+
+song: "song " WORD
+by: "by " WORD
+output: "output " WORD
+tempo: "tempo " (frequency | variable | operation)
+duration: "duration " (time | variable | operation)
+timesig: "timesig " INT " " INT
+keysig: "keysig " frequency " " scale
+tune: "tune " frequency
+sample: "sample " frequency
+channel: "channel " ("mono" | "stereo")
+
+variable: /[a-zA-Z]+[a-zA-Z0-9_]/
+operation: 
+
+%import common.WORD
+%import common.WS
+%import common.INT

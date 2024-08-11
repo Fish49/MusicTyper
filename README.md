@@ -18,12 +18,12 @@ these are reserved keywords that the program uses to interpret your script
         - sets  the tempo for the song in beats per minute, or if a unit of time is specified, 1 beat per that unit of time
         - default is 120 bpm
     - #### duration < time >
-        - sets the total length of the song. this can be set in any unit of time other than song fractions
+        - sets the total length of the song
         - default is 3 minutes
-    - #### time < top > < bottom >
+    - #### timesig < top > < bottom >
         - sets the time signature for the song
         - default is 4 4 time, or common time
-    - #### key < note > ( major | minor )
+    - #### keysig < note > ( major | minor )
         - sets the key signature for the song
         - defaul is C major
     - #### tune < frequency >
@@ -111,6 +111,11 @@ each unit is a suffix for its value ( ex. 440hz )
     - #### decibels (full scale)
         - decibels from 8-bit clip distance
         - ex. 0db is the loudest possible, -3db is normal
+- ### Signal and Melody:
+    - ### signal
+        - a signal is an array of of amplitudes
+    - ### melody
+        - a melody is an array of frequencies
 
 ## Operations
 - ### Casting:
