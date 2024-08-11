@@ -54,6 +54,9 @@ these are reserved keywords that the program uses to interpret your script
         - default from value is middle C
     - #### pitchrelative < sound > < amount >
         - returns the input sound, pitched by the desired amount of half - steps
+    - #### positive < sound >
+        - maps -1 to zero, 0 to 0.5, and 1 to 1. ( ( x + 1 ) / 2 )
+        - useful for creating masks
     - #### add < sound > < position > [ onto ] [ start | end | middle ] [ L | R | both ]
         - adds the sound onto specified other sound at the specified channel
         - specified channel is irrelevant if both tracks are mono or both are stereo
